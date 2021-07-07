@@ -55,25 +55,21 @@ class _MyAppState extends State<MyApp> {
          title: Text('Hello World'),
          backgroundColor: Colors.purple,
          actions: [
-           InkWell(
-             borderRadius: BorderRadius.all(Radius.circular(100)),
-             child: Icon(Icons.search),
-             onTap: () {
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(builder: (context) => SearchScreen())
-                );
-             },
-           ),
-           SizedBox(width: 10,),
-           InkWell(
-             child: Icon(Icons.notifications),
-           ),
-           SizedBox(width: 10,),
-           InkWell(
-             child: Icon(Icons.menu),
-           ),
-           SizedBox(width: 10)
+          //  InkWell(
+          //    borderRadius: BorderRadius.all(Radius.circular(100)),
+          //    child: Icon(Icons.search),
+          //    onTap: () {
+          //      Navigator.push(
+          //        context,
+          //        MaterialPageRoute(builder: (context) => SearchScreen())
+          //       );
+          //    },
+          //  ),
+          //  SizedBox(width: 10,),
+          //  InkWell(
+          //    child: Icon(Icons.notifications),
+          //  ),
+          //  SizedBox(width: 10,)
          ],
        ),
        body: SingleChildScrollView(
@@ -238,54 +234,65 @@ class _MyAppState extends State<MyApp> {
            )
          ],
        ),
+       endDrawer: Drawer(
+         child: ListView(
+           children: [
+             DrawerHeader(
+               decoration: BoxDecoration(
+                color: Colors.purple
+               ),
+               child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 30))
+             ),
+             ListTile(
+               title: Text('Pembayaran', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             Divider(thickness: 1,color: Colors.black,indent:10,endIndent: 10,),
+             ListTile(
+               title: Text('Pengaturan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             Divider(thickness: 1,color: Colors.black,indent:10,endIndent: 10,),
+             ListTile(
+               title: Text('Pengaturan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+             ListTile(
+               title: Text('Histori', style: TextStyle(fontSize: 15)),
+             ),
+           ],
+         )
+       ),
     );
   }
 }
-
-// Future<Post> getPost()async{
-//   var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts/1'));
-//   return Post.fromJson(jsonDecode(response.body));
-// }
-
-// class MyApp extends StatefulWidget {
-//   MyApp({Key? key}) : super(key:key);
-//   @override
-//   MyAppState createState () => MyAppState();
-// }
-
-// class MyAppState extends State<MyApp> {
-//   Map<String,String>? post;
-//   late Future<Post> futurePost;
-//   var title;
-  
-//   @override
-//   void initState() {
-//     setState(() {
-//       futurePost = getPost();
-//     });
-
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     var size = MediaQuery.of(context).size;
-
-//     return Scaffold(
-//       body: Container(
-//         child: FutureBuilder<Post>(
-//           future: getPost(),
-//           builder: (context, snapshot) {
-//             if(snapshot.hasData) {
-//               return ListTile(
-//                 title: Text(snapshot.data?.title),
-//               );
-//             }else {
-//               return LinearProgressIndicator();
-//             }
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
