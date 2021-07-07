@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:learn_flutter_1/screen/search.dart';
@@ -33,6 +34,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Future <List<Post>>? futurePosts;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  var _page = 0;
 
   Widget _loadingIndicator(){
     return Center(
@@ -54,23 +57,23 @@ class _MyAppState extends State<MyApp> {
        appBar: AppBar(
          title: Text('Hello World'),
          backgroundColor: Colors.purple,
-         actions: [
-          //  InkWell(
-          //    borderRadius: BorderRadius.all(Radius.circular(100)),
-          //    child: Icon(Icons.search),
-          //    onTap: () {
-          //      Navigator.push(
-          //        context,
-          //        MaterialPageRoute(builder: (context) => SearchScreen())
-          //       );
-          //    },
-          //  ),
-          //  SizedBox(width: 10,),
-          //  InkWell(
-          //    child: Icon(Icons.notifications),
-          //  ),
-          //  SizedBox(width: 10,)
-         ],
+        //  actions: [
+        //    InkWell(
+        //      borderRadius: BorderRadius.all(Radius.circular(100)),
+        //      child: Icon(Icons.search),
+        //      onTap: () {
+        //        Navigator.push(
+        //          context,
+        //          MaterialPageRoute(builder: (context) => SearchScreen())
+        //         );
+        //      },
+        //    ),
+        //    SizedBox(width: 10,),
+        //    InkWell(
+        //      child: Icon(Icons.notifications),
+        //    ),
+        //    SizedBox(width: 50,)
+        //  ],
        ),
        body: SingleChildScrollView(
          child: Column(
@@ -222,16 +225,23 @@ class _MyAppState extends State<MyApp> {
             ],
           )
        ),
-       bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar: CurvedNavigationBar(
+         key: _bottomNavigationKey,
+         index: 0,
+         height: 50.0,
+         backgroundColor: Colors.purple,
+         buttonBackgroundColor: Colors.white,
+         animationCurve: Curves.easeInOut,
+         animationDuration: Duration(milliseconds: 600),
+         onTap: (index) {
+           setState(() {
+             _page = index;
+           });
+         },
+         letIndexChange: (index) => true,
          items: [
-           BottomNavigationBarItem(
-             icon: Icon(Icons.home),
-             label: 'Beranda'
-           ),
-           BottomNavigationBarItem(
-             icon: Icon(Icons.verified_user),
-             label: 'Profil'
-           )
+           Icon(Icons.home),
+           Icon(Icons.verified_user)
          ],
        ),
        endDrawer: Drawer(
