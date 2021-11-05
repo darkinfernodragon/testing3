@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:learn_flutter_1/screen/search.dart';
-import 'dart:convert';
+import 'package:learn_flutter_1/screen/shop.state.dart';
+import 'package:learn_flutter_1/screen/shop.dart';
+import 'package:learn_flutter_1/services/post.service.dart';
 import 'model/post.dart';
 
 void main() {
@@ -10,19 +10,6 @@ void main() {
     debugShowCheckedModeBanner: false,
     home: MyApp(),
   ));
-}
-
-Future<List<Post>> fetchPosts() async{
-  List<Post> list = [];
-  var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
-  var posts = jsonDecode(response.body);
-  for (var a in posts) {
-    Post post = Post.fromJson(a);
-    list.add(post);
-  }
-  print(list.length);
-  print(list[1].title);
-  return list;
 }
 
 class MyApp extends StatefulWidget {
@@ -43,11 +30,78 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Widget _optionToday() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                borderRadius: BorderRadius.all(Radius.circular(5))
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.shop, color: Colors.white),
+                  Text('Belanja', style: TextStyle(color: Colors.white))
+                ]
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => StateWidget(child: ShopScreen()))
+              );
+            },
+          ),
+          InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                borderRadius: BorderRadius.all(Radius.circular(5))
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.book, color: Colors.white),
+                  Text('Membaca', style: TextStyle(color: Colors.white))
+                ]
+              ),
+            ),
+            onTap: () {
+              //Membaca
+            },
+          ),
+          InkWell(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                borderRadius: BorderRadius.all(Radius.circular(5))
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.tv, color: Colors.white),
+                  Text('Nonton', style: TextStyle(color: Colors.white))
+                ]
+              ),
+            ),
+            onTap: () {
+              //Nonton
+            },
+          )
+        ],
+      )
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     setState(() {
-      futurePosts = fetchPosts();
+      futurePosts = PostService().fetchPosts();
     });
   }
   @override
@@ -57,23 +111,6 @@ class _MyAppState extends State<MyApp> {
        appBar: AppBar(
          title: Text('Hello World'),
          backgroundColor: Colors.purple,
-        //  actions: [
-        //    InkWell(
-        //      borderRadius: BorderRadius.all(Radius.circular(100)),
-        //      child: Icon(Icons.search),
-        //      onTap: () {
-        //        Navigator.push(
-        //          context,
-        //          MaterialPageRoute(builder: (context) => SearchScreen())
-        //         );
-        //      },
-        //    ),
-        //    SizedBox(width: 10,),
-        //    InkWell(
-        //      child: Icon(Icons.notifications),
-        //    ),
-        //    SizedBox(width: 50,)
-        //  ],
        ),
        body: SingleChildScrollView(
          child: Column(
@@ -105,67 +142,7 @@ class _MyAppState extends State<MyApp> {
               SizedBox(
                 height: 12,
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.shop, color: Colors.white),
-                            Text('Belanja', style: TextStyle(color: Colors.white))
-                          ]
-                        ),
-                      ),
-                      onTap: () {
-                        //Shop screen
-                      },
-                    ),
-                    InkWell(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.book, color: Colors.white),
-                            Text('Membaca', style: TextStyle(color: Colors.white))
-                          ]
-                        ),
-                      ),
-                      onTap: () {
-                        //Membaca
-                      },
-                    ),
-                    InkWell(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.tv, color: Colors.white),
-                            Text('Nonton', style: TextStyle(color: Colors.white))
-                          ]
-                        ),
-                      ),
-                      onTap: () {
-                        //Nonton
-                      },
-                    )
-                  ],
-                )
-              ),
+              _optionToday(),
               SizedBox(
                 height: 24,
               ),
@@ -188,6 +165,7 @@ class _MyAppState extends State<MyApp> {
                       return SingleChildScrollView(
                         child: ListView.builder(
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: 5,
                           itemBuilder: (context, index) {
                             return Card(
